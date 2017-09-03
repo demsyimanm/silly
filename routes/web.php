@@ -41,9 +41,19 @@ Route::group(['middleware' => 'auth'], function() {
 					Route::get('{id2}/detail/{id3}', ['as' => 'information.foto.detail', 'uses' => 'Backend\InformationController@fotoDetail']);
 					Route::post('{id2}/detail/{id3}', ['as' => 'information.foto.update', 'uses' => 'Backend\InformationController@fotoUpdate']);
 					Route::get('{id2}/delete/{id3}', ['as' => 'information.foto.delete', 'uses' => 'Backend\InformationController@fotoDelete']);
+					Route::group(['prefix' => '{id2}/relasi'], function() {
+						Route::get('/{idFoto}', ['as' => 'information.relasi.index', 'uses' => 'Backend\InformationController@relasiIndex']);
+						Route::post('/{idFoto}/data', ['as' => 'information.relasi.data', 'uses' => 'Backend\InformationController@relasiData']);
+						Route::post('/{idFoto}/create', ['as' => 'information.relasi.create', 'uses' => 'Backend\InformationController@relasiCreate']);
+						Route::get('/{idFoto}/detail/{idrelasi}', ['as' => 'information.relasi.detail', 'uses' => 'Backend\InformationController@relasiDetail']);
+						Route::post('/{idFoto}/detail/{idrelasi}', ['as' => 'information.relasi.update', 'uses' => 'Backend\InformationController@relasiUpdate']);
+						Route::get('/{idFoto}/delete/{idrelasi}', ['as' => 'information.relasi.delete', 'uses' => 'Backend\InformationController@relasidelete']);
+					});
 				});	
 				Route::get('parent/{idfoto}', ['as' => 'information.foto.parent', 'uses' => 'Backend\InformationController@getParent']);
 				Route::get('parent/{idinformasi}/all', ['as' => 'information.foto.parent.all', 'uses' => 'Backend\InformationController@getParentAll']);
+				Route::get('child/{idfoto}/all', ['as' => 'information.foto.child.all', 'uses' => 'Backend\InformationController@getChildAll']);
+				Route::get('child/{idfoto}', ['as' => 'information.foto.child', 'uses' => 'Backend\InformationController@getChild']);
 			});
 		});
 	});

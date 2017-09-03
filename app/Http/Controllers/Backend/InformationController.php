@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Informasi;
 use App\Model\Kategori;
+use App\Model\Foto;
 use App\Services\DataTableService;
 use App\Repositories\InformationRepository;
 class InformationController extends Controller
@@ -13,18 +14,21 @@ class InformationController extends Controller
 	protected $dataTableService;
 	protected $informasi;
 	protected $kategori;
+    protected $foto;
 	protected $informationRepository;
 	public function __construct(
                                     DataTableService $dataTableService, 
                                     Informasi $informasi,
                                     Kategori $kategori,
-                                    InformationRepository $informationRepository
+                                    InformationRepository $informationRepository,
+                                    Foto $foto
                                 )
 	{
 
         $this->dataTableService     = $dataTableService;
         $this->informasi  = $informasi;
         $this->kategori = $kategori;
+        $this->foto = $foto;
         $this->informationRepository = $informationRepository;
 
     }
@@ -68,8 +72,9 @@ class InformationController extends Controller
     }
 
     public function informationUpdate(Request $request,$id){
-    	$data = $this->informationRepository->informationUpdate($request->all(),$id);
-    	return response()->json($data);
+        dd($request->all());
+        $data = $this->informationRepository->informationUpdate($request->all(),$id);
+        return response()->json($data);
     }
 
     public function informationCreate(Request $request,$id){
@@ -79,16 +84,19 @@ class InformationController extends Controller
 
     public function fotoIndex($id1,$id2){
         $kat = $this->kategori->find($id1);
+        $informasi = $this->informasi->find($id2);
         // if(isWisata($kat->nama)){
         //     $parents = $this->informationRepository->getParent($id2);
         // }
-        return (isWisata($kat->nama)) ?  view('backend.foto.indexWisata', compact('id1','id2','parents')) :  view('backend.foto.index', compact('id1','id2'));
+        return (isWisata($kat->nama)) ?  view('backend.foto.indexWisata', compact('id1','id2','parents','informasi')) :  view('backend.foto.index', compact('id1','id2','informasi'));
     	
     }
 
     public function fotoData(Request $request,$id1,$id2){
+        $kat = $this->kategori->find($id1);
     	$informasi = $this->informationRepository->getFoto($id2,$id1);
-    	return $this->dataTableService->generate($informasi, 'nodetail');
+        if(isWisata($kat->nama)) return $this->dataTableService->generate($informasi, 'full');
+        else return $this->dataTableService->generate($informasi, 'nodetail');
     }
 
     public function fotoDetail(Request $request,$id1,$id2,$id3){
@@ -121,4 +129,43 @@ class InformationController extends Controller
         return apiArrayResponseBuilder(200, 'success', $data);
     }
 
+    public function getChild(Request $request,$idfoto){
+        $data = $this->informationRepository->getChild($idfoto);
+        return apiArrayResponseBuilder(200, 'success', $data);
+    }
+
+    public function getChildAll(Request $request,$idfoto){
+        $data = $this->informationRepository->getChildAll($idfoto);
+        return apiArrayResponseBuilder(200, 'success', $data);
+    }
+
+    public function relasiIndex($id1,$id2,$idFoto){
+        $foto = $this->foto->find($idFoto);
+        return view('backend.relasi.index', compact('id1','id2','idFoto','foto'));
+    }
+
+    public function relasiData(Request $request,$id1,$id2,$idFoto){
+        $child = $this->informationRepository->getRelasi($idFoto);
+        return $this->dataTableService->generate($child, 'nodetailrelasi');
+    }
+
+    public function relasiCreate(Request $request,$id1,$id2,$idFoto){
+        $data = $this->informationRepository->relasiCreate($request->all(),$id1,$id2,$idFoto);
+        return response()->json($data);
+    }
+
+    public function relasiDetail(Request $request,$id1,$id2,$idFoto,$idRelasi){
+        $data = $this->informationRepository->detailRelasi($idRelasi);
+        return response()->json($data);
+    }
+
+    public function relasiUpdate(Request $request,$id1,$id2,$idFoto,$idRelasi){
+        $data = $this->informationRepository->relasiUpdate($request->all(),$id1,$id2,$idFoto,$idRelasi);
+        return response()->json($data);
+    }
+
+    public function relasiDelete(Request $request,$id1,$id2,$idFoto,$idRelasi){
+        $data = $this->informationRepository->relasiDelete($request->all(),$id1,$id2,$idFoto,$idRelasi);
+        return response()->json($data);
+    }
 }

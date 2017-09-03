@@ -116,6 +116,7 @@
                             cache:false,
                             dataType: 'json',
                             beforeSend: function(){
+                                document.getElementById('data').value = CKEDITOR.instances.editor.getData();    
                                 $('#data-table_processing').show();
                             },
                             success: function(data){
@@ -157,6 +158,8 @@
                             async:false,
                             cache:false,
                             beforeSend: function(){
+                                CKEDITOR.instances['editor'].updateElement();
+                                // document.getElementById('data').value = CKEDITOR.instances.editor.getData();
                                 $('#data-table_processing').show();
                             },
                             success: function(data){

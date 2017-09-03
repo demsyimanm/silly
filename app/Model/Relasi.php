@@ -13,7 +13,7 @@ class Relasi extends Model
 
     protected $fillable = array( 
     	'fotoparent',
-    	'nama_parent',
+    	'nama_child',
     	'fotochild', 
 		'derajat', 
 	);

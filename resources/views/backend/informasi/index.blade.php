@@ -2,6 +2,7 @@
 
 @section('pageTitle')
 Informasi
+
 @endsection
 @section('xtitle')
 <a data-toggle="modal" href="#modal-edit" onclick="prepareAdd()"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add Data</button></a>
@@ -10,6 +11,8 @@ Informasi
 </div>
 @endsection
 @section('content')
+<script src="{{URL::to('plugin/ckeditor/ckeditor.js')}}"></script>
+<script src="{{URL::to('plugin/ckeditor/config.js')}}"></script>
 <div class="table-responsive displayNone">       
     <table class="table table-striped table-bordered" id="data-table" style="width:100%">
         <thead>
@@ -56,7 +59,7 @@ Informasi
             <div class="row">
                 <form action="" method="POST" class="form-horizontal" role="form" id="form-data">
                 <input type='hidden' id='id' name="id">
-                <input type='hidden' id='_method' value="POST" name="_method">
+                <!-- <input type='hidden' id='_method' value="POST" name="_method"> -->
                 <input type='hidden' id='_token' value="{{csrf_token()}}" name="_token">
                     <div class="form-group">
                         <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">
@@ -119,7 +122,10 @@ Informasi
                             Data
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <textarea type="text" placeholder="Data" class="form-control" name="data" id="data" value="" required=""></textarea>
+                            <input type="hidden" placeholder="Data" class="form-control" name="data" id="data" value="">
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <textarea type="text" class="form-control" id="editor" name="editor" value="" required=""></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -130,8 +136,12 @@ Informasi
                         </div>
                     </div>
                 </form>
+                <script type="text/javascript">
+                    CKEDITOR.replace('editor');
+                </script>
                 </div>
             </div>
+            
             <div class="modal-footer hidden">
                 
             </div>
@@ -141,6 +151,8 @@ Informasi
 @endsection
 
 @section('customjs')
+
+
 <script type="text/javascript">
 	function prepareAdd(){
 		$('#reset').click();
@@ -150,6 +162,10 @@ Informasi
 <script type="text/javascript">
     $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 </script>
+<script>
+
+</script>
+
 @endsection
 
 @section('id')
@@ -202,4 +218,10 @@ true
 
 @section('searchable')
 { searchable: false, targets: [] }
+@endsection
+
+@section('customeditcondition')
+var text = document.getElementById ( "data" ).value;
+console.log(text)
+CKEDITOR.instances.editor.setData( '<p>AAAA</p>' );
 @endsection

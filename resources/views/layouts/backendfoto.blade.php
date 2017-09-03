@@ -249,17 +249,17 @@
                             if (typeof(element) != 'undefined' && element != null && i!=='path')
                             {
                                 document.getElementById(i).value = val;
-                                if(i=='fotoparent'){
-                                    if(val == null || val == "--"){
-                                        document.getElementById(i).value = "--";
-                                        document.getElementById('divDerajat').style.display = "none";
-                                    }
-                                    else{
-                                        document.getElementById('divDerajat').style.display = "block";
-                                        document.getElementById('id_parent').value = val;
-                                        // console.log(document.getElementById('id_parent').value);
-                                    }
-                                }
+                                // if(i=='fotoparent'){
+                                //     if(val == null || val == "--"){
+                                //         document.getElementById(i).value = "--";
+                                //         document.getElementById('divDerajat').style.display = "none";
+                                //     }
+                                //     else{
+                                //         document.getElementById('divDerajat').style.display = "block";
+                                //         document.getElementById('id_parent').value = val;
+                                //         // console.log(document.getElementById('id_parent').value);
+                                //     }
+                                // }
                             }
 
                             if (typeof statusUserManagement == 'function') { 
@@ -274,29 +274,29 @@
 
                     }
                 });
-                $.ajax({
-                    type: "GET",
-                    url: "{{ url('backend/kategori-informasi/informasi/parent') }}/"+id,
-                    dataType: "json",
-                    success: function (data) {
-                        $('#fotoparent').empty();
-                        $('#fotoparent').append('<option value="--">--</option>');
-                        var obj = data;
-                        for(loop = 0; loop < obj.data.length; loop++){
-                            var a = obj.data[loop];
-                            if(a.id == document.getElementById('id_parent').value){
-                                $('#fotoparent').append('<option value="'+a.id+'" selected="">'+a.nama+'</option>');
-                            }
-                            else{
-                                $('#fotoparent').append('<option value="'+a.id+'">'+a.nama+'</option>');   
-                            }
-                        }
-                        var e = document.getElementById("fotoparent");
-                        var nama_parent = e.options[e.selectedIndex].text;
-                        document.getElementById("nama_parent").value = nama_parent;
-                        console.log(nama_parent);
-                    }
-                });
+                // $.ajax({
+                //     type: "GET",
+                //     url: "{{ url('backend/kategori-informasi/informasi/parent') }}/"+id,
+                //     dataType: "json",
+                //     success: function (data) {
+                //         $('#fotoparent').empty();
+                //         $('#fotoparent').append('<option value="--">--</option>');
+                //         var obj = data;
+                //         for(loop = 0; loop < obj.data.length; loop++){
+                //             var a = obj.data[loop];
+                //             if(a.id == document.getElementById('id_parent').value){
+                //                 $('#fotoparent').append('<option value="'+a.id+'" selected="">'+a.nama+'</option>');
+                //             }
+                //             else{
+                //                 $('#fotoparent').append('<option value="'+a.id+'">'+a.nama+'</option>');   
+                //             }
+                //         }
+                //         var e = document.getElementById("fotoparent");
+                //         var nama_parent = e.options[e.selectedIndex].text;
+                //         document.getElementById("nama_parent").value = nama_parent;
+                //         console.log(nama_parent);
+                //     }
+                // });
             }
 
             $(document).ready(function() {

@@ -39,4 +39,10 @@ class Foto extends Model
     	$path = "<img src=".$path." style='width:100px'>";
         return $path;
     }
+
+    public function getNamaAttribute($value)
+    {   
+        $nama = str_replace('-', ' ', $value);
+        return $nama;
+    }
 }

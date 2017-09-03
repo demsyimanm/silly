@@ -66,6 +66,39 @@ class DataTableService {
 				})->escapeColumns(['action'])->make();	
 
 		}
+		if( $action == 'nodetailrelasi'){
+			return Datatables::of($data)
+			->addColumn('action', function ($data) {
+
+	                return '
+	                	<center>
+	                		<a data-toggle="modal" href="#modal-edit" onClick="prepareEdit('.$data->id.');loaddata('.$data->id.');" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i>
+	                		</a> 
+	                		<a onClick="deleteData('.$data->id.')" class="btn btn-xs btn-danger" id="delete"><i class="fa fa-trash-o"></i></a>
+		                </center>';
+				})
+			->editColumn('path', function ($data) {
+
+	                return '<img src='.url($data->path).' style="width:100px">';
+				})
+			->escapeColumns(['action'])->make();	
+
+		}
+		if( $action == 'full'){
+			
+			return Datatables::of($data)->addColumn('action', function ($data) {
+
+	                return '
+	                	<center>
+	                		<a data-toggle="modal" href="#modal-edit" onClick="prepareEdit('.$data->id.');loaddata('.$data->id.');" class="btn btn-xs btn-warning"><i class="fa fa-edit"></i>
+	                		</a> 
+	                		<a data-toggle="modal" onClick="gotoDetail('.$data->id.');loaddata('.$data->id.');" class="btn btn-xs btn-info"><i class="fa fa-list"></i>
+	                		</a> 
+	                		<a onClick="deleteData('.$data->id.')" class="btn btn-xs btn-danger" id="delete"><i class="fa fa-trash-o"></i></a>
+		                </center>';
+				})->escapeColumns(['action'])->make();	
+
+		}
 		if( $action == 'noaction'){
 			
 			return Datatables::of($data)->removeColumn('id')->editColumn('id', 'ID: @{{$id}}')->make();	

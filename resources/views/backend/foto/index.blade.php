@@ -1,7 +1,7 @@
 @extends('layouts.backendfoto')
 
 @section('pageTitle')
-Foto Informasi Non Wisata
+Foto Informasi Non Wisata "{{$informasi->nama}}""
 @endsection
 @section('xtitle')
 <a data-toggle="modal" href="#modal-edit" onclick="prepareAdd()"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add Data</button></a>
@@ -16,8 +16,7 @@ Foto Informasi Non Wisata
             <tr>
             	<th>ID</th>
                 <th>Nama</th>
-                <th>Informasi</th>
-                <th>Path</th>
+                <th>Foto</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -25,8 +24,7 @@ Foto Informasi Non Wisata
             <tr>
             	<th>ID</th>
                 <th>Nama</th>
-                <th>Informasi</th>
-                <th>Path</th>
+                <th>Foto</th>
                 <th>Action</th>
             </tr>
         </tfoot>
